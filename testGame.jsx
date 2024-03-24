@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import './style/testGame.css'
 
-function testGame() {
+function TestGame() {
 var cellOne = document.getElementById('c1');
 var cellTwo = document.getElementById('c2');
 var cellThree = document.getElementById('c3');
@@ -102,9 +103,15 @@ var cellNinetyEight = document.getElementById('c98');
 var cellNinetyNine = document.getElementById('c99');
 var cellOneHundred = document.getElementById('c100');
 
+///////MAIN COMPONENTS//////////
+const [ start, setStart ] = useState(false);
+
+
+var pressedButton = "UP"  
+
 const Snake = {
-    length:2,
-    headLocation:'c55',
+    length:3,
+    headLocation:'c46',
     bodyLocations: [],
     tailLocation: '',
 }
@@ -114,152 +121,50 @@ const Food = {
 }
 
 
-var start = true
-var pressedButton = ""  
 function startApp(){
-    if(start){
-        setInterval(appContainer, 200);
-    }   
+    console.log("APP STARTED")
+
+    setInterval(appContainer, 200);
+    
 }
 
-function stopApp(){
-    start = false
-}
+//////////END OF MAIN COMPONENTS//////
 
 
 function appContainer(){
     plotFood()
-    var nextHead = locateNextHead()
-    var nextHeadDiv = document.getElementById(nextHead)
-
-    if(nextHeadDiv.id == Food.location){
-        Snake.length+=1
-    }
-
-    if(isCollision(nextHead)){
-        console.log("COLLISION")
-    }
-
-    if(foodCollision(nextHead)){
-        console.log("NEW FOOD LOCATION")
+    var newHead = locateNextHead(pressedButton, parseInt(Snake.headLocation.slice(1)))
+    var headDiv = document.getElementById(newHead)
+    if(headDiv.id == Food.location){
+        Snake.length++
         newFoodLocation()
     }
+    if(isCollision(newHead)){
+        //!!!!change setStart to False to end the game!!!!GAME OVER
+        console.log("COLLISION")
 
-    updateHeadAndBody(nextHead)
+    }
+    updateHeadAndBody(newHead)
     updateTail()
     updateSnakeBody()
-    //console.log('head'+Snake.headLocation)
-    //console.log('tail'+Snake.tailLocation)
-    //console.log(Snake.bodyLocations)
     plotSnake()
 }
 
-function plotFood(){
-    var foodLocation = Food.location 
-    var food = document.getElementById(foodLocation)
-    food.style.backgroundColor = 'blue'
-}
 
-function foodCollision(nextHead){
-    if(nextHead == Food.location){
-        console.log('YUM FOOD')
-        return true
-    }
-        return false
+//create a randomizer to pick random div containers
+function plotFood(){
+    document.getElementById(Food.location).style.background = 'blue'
 }
 
 function newFoodLocation(){
     var randomNumber = Math.ceil(Math.random() * 100)
-    var matchingDiv = 'c'+randomNumber
-    document.getElementById(matchingDiv).style.backgroundColor='blue'
-    Food.location = matchingDiv
+    Food.location = 'c'+randomNumber
+    plotFood()
 }
-
-function locateNextHead(){
-    var upperRow = [2,12,22,32,42,52,62,72,82,92]
-    var bottomRow = [10,20,30,40,50,60,70,80,90,100]
-    var newHeadLocation = nextHeadLocation(pressedButton, parseInt(Snake.headLocation.slice(1)))
-    var headNumber = parseInt(newHeadLocation.slice(1))
-    console.log(headNumber)
-
-    if(headNumber < 0 && pressedButton == "LEFT"){
-        var tooFarLeft = headNumber + 100
-        return 'c' + tooFarLeft
-    }
-    if(headNumber > 100 && pressedButton == "RIGHT"){
-        var tooFarRight = headNumber - 100
-        return 'c' + tooFarRight
-    }
-    if(headNumber % 11 == 0 && pressedButton == "UP"){
-        var tooFarUp = headNumber + 9
-        console.log("TOO FAR UP")
-        return 'c' + tooFarUp
-    }
-
-    if(headNumber)
-    
-    return newHeadLocation
-}
-
-function isCollision(nextHead){
-    if(Snake.bodyLocations.includes(nextHead)){
-        return true
-    }
-        return false   
-}
-
-
-function updateHeadAndBody(nextHead){
-    if(nextHead == undefined){
-        return
-    }
-    var currentHead = Snake.headLocation
-    Snake.bodyLocations.unshift(currentHead)
-    Snake.headLocation = nextHead
-}
-
-
-function updateTail(){
-    var body = Snake.bodyLocations
-    var snakeTail = body[body.length -1]
-    Snake.tailLocation = snakeTail
-}
-
-
-function updateSnakeBody(){
-    while(Snake.bodyLocations.length>=Snake.length){
-        Snake.bodyLocations.pop()
-    }
-}
-
-function plotSnake(){
-    if(Snake.tailLocation == undefined){
-        return
-    }
-
-    if(Snake.length == 1){
-        var singleCellSnake = document.getElementById(Snake.headLocation).style.backgroundColor = 'red'
-    }
-    
-    for(let i=0; i<Snake.bodyLocations.length;i++){
-        var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = 'red'
-    }
-    var head = document.getElementById(Snake.headLocation).style.backgroundColor='red'
-    removeTail()
-}
-
-function removeTail(){
-    var tail = document.getElementById(Snake.tailLocation)
-    if(tail == null){
-        return
-    }
-    tail.style.backgroundColor = 'aquamarine'
-}
-
 
 //Determines next head location based off the current locations cell number
 //returns a string that matches the corespondign Div ID
-function nextHeadLocation(direction, currentHeadNumber){
+function locateNextHead(direction, currentHeadNumber){
     var currentHead = currentHeadNumber
     var outputNextHead = 0
     if(direction=='LEFT'){
@@ -284,9 +189,57 @@ function nextHeadLocation(direction, currentHeadNumber){
     }
 }
 
+//determines if thea head collides with body
+function isCollision(newHead){
+    if(Snake.bodyLocations.includes(newHead)){
+        return true
+    }
+        return false
+}
 
-document.addEventListener('keydown', handleKeyDown);
+//insert the current snake head into the first positon of its body
+//sets the new head of the Snake
+function updateHeadAndBody(newHead){
+    var currentHead = Snake.headLocation
+    Snake.bodyLocations.unshift(currentHead)
+    Snake.headLocation = newHead
+}
+
+function updateTail(){
+    var body = Snake.bodyLocations
+    var snakeTail = body[body.length -1]
+    Snake.tailLocation = snakeTail
+}
+
+function updateSnakeBody(){
+    while(Snake.bodyLocations.length>=Snake.length){
+        Snake.bodyLocations.pop()
+    }
+}
+
+function plotSnake(){
+    if(Snake.tailLocation == undefined){
+        return
+    }
+    for(let i=0; i<Snake.bodyLocations.length;i++){
+        var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = 'red'
+    }
+
+    var head = document.getElementById(Snake.headLocation).style.backgroundColor='red'
+    removeTail()
+}
+
+function removeTail(){
+    var tail = document.getElementById(Snake.tailLocation)
+    if(tail == null){
+        return
+    }
+    tail.style.backgroundColor = 'aquamarine'
+}
+
+
 // Event listener for keydown
+document.addEventListener('keydown', handleKeyDown);
 function handleKeyDown(event) {
     const key = event.key;
     if(key == 'ArrowLeft'){
@@ -307,7 +260,7 @@ function handleKeyDown(event) {
 document.addEventListener('keyup', handleKeyUp);
 function handleKeyUp(event) {
     const key = event.key;
-    pressedButton = "";
+    //pressedButton = "";
 }
 
 
@@ -315,7 +268,7 @@ function handleKeyUp(event) {
 <div id="main-container">
     <h1>TEST TEST TEST GAME</h1>
     <div id="grid-container">
-      <button>Start Game</button>
+      <button onClick={startApp}>Start Game</button>
    
         <div class="rows" id="column1">
             <div class="cell" id="c1">1</div>
@@ -451,4 +404,4 @@ function handleKeyUp(event) {
   );
 }
 
-export default testGame;
+export default TestGame;
