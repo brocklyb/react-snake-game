@@ -2,110 +2,8 @@ import { useState } from 'react';
 import './style/testGame.css'
 
 function TestGame() {
-var cellOne = document.getElementById('c1');
-var cellTwo = document.getElementById('c2');
-var cellThree = document.getElementById('c3');
-var cellFour = document.getElementById('c4');
-var cellFive = document.getElementById('c5');
-var cellSix = document.getElementById('c6');
-var cellSeven = document.getElementById('c7');
-var cellEight = document.getElementById('c8');
-var cellNine = document.getElementById('c9');
-var cellTen = document.getElementById('c10');
-var cellEleven = document.getElementById('c11');
-var cellTwelve = document.getElementById('c12');
-var cellThirteen = document.getElementById('c13');
-var cellFourteen = document.getElementById('c14');
-var cellFifteen = document.getElementById('c15');
-var cellSixteen = document.getElementById('c16');
-var cellSeventeen = document.getElementById('c17');
-var cellEighteen = document.getElementById('c18');
-var cellNineteen = document.getElementById('c19');
-var cellTwenty = document.getElementById('c20');
-var cellTwentyOne = document.getElementById('c21');
-var cellTwentyTwo = document.getElementById('c22');
-var cellTwentyThree = document.getElementById('c23');
-var cellTwentyFour = document.getElementById('c24');
-var cellTwentyFive = document.getElementById('c25');
-var cellTwentySix = document.getElementById('c26');
-var cellTwentySeven = document.getElementById('c27');
-var cellTwentyEight = document.getElementById('c28');
-var cellTwentyNine = document.getElementById('c29');
-var cellThirty = document.getElementById('c30');
-var cellThirtyOne = document.getElementById('c31');
-var cellThirtyTwo = document.getElementById('c32');
-var cellThirtyThree = document.getElementById('c33');
-var cellThirtyFour = document.getElementById('c34');
-var cellThirtyFive = document.getElementById('c35');
-var cellThirtySix = document.getElementById('c36');
-var cellThirtySeven = document.getElementById('c37');
-var cellThirtyEight = document.getElementById('c38');
-var cellThirtyNine = document.getElementById('c39');
-var cellForty = document.getElementById('c40');
-var cellFortyOne = document.getElementById('c41');
-var cellFortyTwo = document.getElementById('c42');
-var cellFortyThree = document.getElementById('c43');
-var cellFortyFour = document.getElementById('c44');
-var cellFortyFive = document.getElementById('c45');
-var cellFortySix = document.getElementById('c46');
-var cellFortySeven = document.getElementById('c47');
-var cellFortyEight = document.getElementById('c48');
-var cellFortyNine = document.getElementById('c49');
-var cellFifty = document.getElementById('c50');
-var cellFiftyOne = document.getElementById('c51');
-var cellFiftyTwo = document.getElementById('c52');
-var cellFiftyThree = document.getElementById('c53');
-var cellFiftyFour = document.getElementById('c54');
-var cellFiftyFive = document.getElementById('c55');
-var cellFiftySix = document.getElementById('c56');
-var cellFiftySeven = document.getElementById('c57');
-var cellFiftyEight = document.getElementById('c58');
-var cellFiftyNine = document.getElementById('c59');
-var cellSixty = document.getElementById('c60');
-var cellSixtyOne = document.getElementById('c61');
-var cellSixtyTwo = document.getElementById('c62');
-var cellSixtyThree = document.getElementById('c63');
-var cellSixtyFour = document.getElementById('c64');
-var cellSixtyFive = document.getElementById('c65');
-var cellSixtySix = document.getElementById('c66');
-var cellSixtySeven = document.getElementById('c67');
-var cellSixtyEight = document.getElementById('c68');
-var cellSixtyNine = document.getElementById('c69');
-var cellSeventy = document.getElementById('c70');
-var cellSeventyOne = document.getElementById('c71');
-var cellSeventyTwo = document.getElementById('c72');
-var cellSeventyThree = document.getElementById('c73');
-var cellSeventyFour = document.getElementById('c74');
-var cellSeventyFive = document.getElementById('c75');
-var cellSeventySix = document.getElementById('c76');
-var cellSeventySeven = document.getElementById('c77');
-var cellSeventyEight = document.getElementById('c78');
-var cellSeventyNine = document.getElementById('c79');
-var cellEighty = document.getElementById('c80');
-var cellEightyOne = document.getElementById('c81');
-var cellEightyTwo = document.getElementById('c82');
-var cellEightyThree = document.getElementById('c83');
-var cellEightyFour = document.getElementById('c84');
-var cellEightyFive = document.getElementById('c85');
-var cellEightySix = document.getElementById('c86');
-var cellEightySeven = document.getElementById('c87');
-var cellEightyEight = document.getElementById('c88');
-var cellEightyNine = document.getElementById('c89');
-var cellNinety = document.getElementById('c90');
-var cellNinetyOne = document.getElementById('c91');
-var cellNinetyTwo = document.getElementById('c92');
-var cellNinetyThree = document.getElementById('c93');
-var cellNinetyFour = document.getElementById('c94');
-var cellNinetyFive = document.getElementById('c95');
-var cellNinetySix = document.getElementById('c96');
-var cellNinetySeven = document.getElementById('c97');
-var cellNinetyEight = document.getElementById('c98');
-var cellNinetyNine = document.getElementById('c99');
-var cellOneHundred = document.getElementById('c100');
-
 ///////MAIN COMPONENTS//////////
 const [ start, setStart ] = useState(false);
-
 
 var pressedButton = "UP"  
 
@@ -120,21 +18,19 @@ const Food = {
     location: 'c15',
 }
 
-
 function startApp(){
     console.log("APP STARTED")
-
     setInterval(appContainer, 200);
-    
 }
-
 //////////END OF MAIN COMPONENTS//////
-
-
+//entry point of app
 function appContainer(){
     plotFood()
     var newHead = locateNextHead(pressedButton, parseInt(Snake.headLocation.slice(1)))
     var headDiv = document.getElementById(newHead)
+    if(headDiv == null){
+        headDiv = Snake.bodyLocations[0]
+    }
     if(headDiv.id == Food.location){
         Snake.length++
         newFoodLocation()
@@ -142,20 +38,31 @@ function appContainer(){
     if(isCollision(newHead)){
         //!!!!change setStart to False to end the game!!!!GAME OVER
         console.log("COLLISION")
-
     }
+    
     updateHeadAndBody(newHead)
     updateTail()
     updateSnakeBody()
-    plotSnake()
+    let isOutOfBounds = boundryCheck(newHead)
+    if(!isOutOfBounds){
+        try{
+            plotSnake()
+        }catch(error){
+            console.log(error)
+        }
+    }
+    if(isOutOfBounds){
+        correctSnake(isOutOfBounds)
+        plotSnake()
+    }
 }
-
 
 //create a randomizer to pick random div containers
 function plotFood(){
     document.getElementById(Food.location).style.background = 'blue'
 }
 
+//generates a new food location and plots location
 function newFoodLocation(){
     var randomNumber = Math.ceil(Math.random() * 100)
     Food.location = 'c'+randomNumber
@@ -200,35 +107,80 @@ function isCollision(newHead){
 //insert the current snake head into the first positon of its body
 //sets the new head of the Snake
 function updateHeadAndBody(newHead){
-    var currentHead = Snake.headLocation
-    Snake.bodyLocations.unshift(currentHead)
+    Snake.bodyLocations.unshift(Snake.headLocation)
     Snake.headLocation = newHead
 }
 
+//removes tail off snake.body
 function updateTail(){
     var body = Snake.bodyLocations
-    var snakeTail = body[body.length -1]
-    Snake.tailLocation = snakeTail
+    Snake.tailLocation = body[body.length -1]
 }
 
+//trims the snake body as it moves
 function updateSnakeBody(){
-    while(Snake.bodyLocations.length>=Snake.length){
+    if(Snake.bodyLocations.length>=Snake.length){
         Snake.bodyLocations.pop()
     }
 }
 
+function boundryCheck(head){
+    let numToofarUp = [11,21,31,41,51,61,71,81]
+    let numToofarDown = [20,30,40,50,60,70,80,90]
+    let numToofarLeft = [2,3,4,5,6,7,8,9]
+    let numToofarRight = [92,93,94,95,96,97,98,99]
+    let newHead = parseInt(head.slice(1))
+    let oldHead = parseInt(Snake.bodyLocations[0].slice(1))
+    
+    //Next head will exceed boudning heading upwards
+    if(oldHead - 1 == newHead && numToofarUp.includes(oldHead)){
+        let updatedHead = 9 + oldHead
+        return 'c' + updatedHead
+    }
+    //Next head will exceed boudning heading Down
+    if(oldHead + 1 == newHead && numToofarDown.includes(oldHead)){
+        console.log("LJDJDSJDSJDJD")
+        let updatedHead = oldHead - 9
+        return 'c' + updatedHead
+    }
+    
+    //Next head will exceed boudning heading Right
+    if(oldHead - 10 == newHead && numToofarLeft.includes(oldHead)){
+        console.log("LJDJDSJDSJDJD")
+        let updatedHead = oldHead + 90
+        return 'c' + updatedHead
+    }
+        //Next head will exceed boudning heading Left
+    if(oldHead + 10 == newHead && numToofarRight.includes(oldHead)){
+        console.log("LJDJDSJDSJDJD")
+        let updatedHead = oldHead - 90
+        return 'c' + updatedHead
+    }
+
+    
+return false
+}
+
+function correctSnake(updatedHead){
+    Snake.headLocation = updatedHead
+}
+
+//chages color/plots snake body
 function plotSnake(){
+    console.log(Snake.bodyLocations)
     if(Snake.tailLocation == undefined){
         return
     }
     for(let i=0; i<Snake.bodyLocations.length;i++){
         var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = 'red'
     }
+    console.log(Snake.bodyLocations[Snake.bodyLocations.length -1])
 
     var head = document.getElementById(Snake.headLocation).style.backgroundColor='red'
     removeTail()
 }
 
+//remove tail as it moves
 function removeTail(){
     var tail = document.getElementById(Snake.tailLocation)
     if(tail == null){
@@ -236,7 +188,6 @@ function removeTail(){
     }
     tail.style.backgroundColor = 'aquamarine'
 }
-
 
 // Event listener for keydown
 document.addEventListener('keydown', handleKeyDown);
@@ -262,7 +213,6 @@ function handleKeyUp(event) {
     const key = event.key;
     //pressedButton = "";
 }
-
 
   return (
 <div id="main-container">
