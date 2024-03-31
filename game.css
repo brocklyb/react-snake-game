@@ -1,7 +1,6 @@
 #main-container{
     margin-left: 20%;
-    margin-top: 20%;
-        max-width: 30%;
+    max-width: 30%;
     }
     
     #grid-container{
@@ -11,7 +10,6 @@
     }
     
     .cell{
-        background-color: aquamarine;
         height: 80px;
         width: 80px;   
     }
