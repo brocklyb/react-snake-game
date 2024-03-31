@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import './style/testGame.css'
+import Customize from './CustomizePage';
+import UserContext from "../contexts/UserContext";
 
 function TestGame() {
 ///////MAIN COMPONENTS//////////
 const [ start, setStart ] = useState(false);
+
+
+//this context lets users select colors 
+const {snakeColor,gameBoardColor, foodColor} = useContext(UserContext)
 
 var pressedButton = "UP"  
 
@@ -12,6 +18,7 @@ const Snake = {
     headLocation:'c46',
     bodyLocations: [],
     tailLocation: '',
+    score: 0,
 }
 
 const Food = {
@@ -21,6 +28,9 @@ const Food = {
 function startApp(){
     console.log("APP STARTED")
     setInterval(appContainer, 200);
+    console.log(snakeColor)
+    console.log(gameBoardColor)
+    console.log(foodColor)
 }
 //////////END OF MAIN COMPONENTS//////
 //entry point of app
@@ -33,6 +43,7 @@ function appContainer(){
     }
     if(headDiv.id == Food.location){
         Snake.length++
+        Snake.score++
         newFoodLocation()
     }
     if(isCollision(newHead)){
@@ -59,7 +70,7 @@ function appContainer(){
 
 //create a randomizer to pick random div containers
 function plotFood(){
-    document.getElementById(Food.location).style.background = 'blue'
+    document.getElementById(Food.location).style.background = foodColor
 }
 
 //generates a new food location and plots location
@@ -172,11 +183,11 @@ function plotSnake(){
         return
     }
     for(let i=0; i<Snake.bodyLocations.length;i++){
-        var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = 'red'
+        var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = snakeColor
     }
     console.log(Snake.bodyLocations[Snake.bodyLocations.length -1])
 
-    var head = document.getElementById(Snake.headLocation).style.backgroundColor='red'
+    var head = document.getElementById(Snake.headLocation).style.backgroundColor= snakeColor
     removeTail()
 }
 
@@ -186,7 +197,7 @@ function removeTail(){
     if(tail == null){
         return
     }
-    tail.style.backgroundColor = 'aquamarine'
+    tail.style.backgroundColor = gameBoardColor
 }
 
 // Event listener for keydown
@@ -217,137 +228,138 @@ function handleKeyUp(event) {
   return (
 <div id="main-container">
     <h1>TEST TEST TEST GAME</h1>
+    <Customize />
     <div id="grid-container">
       <button onClick={startApp}>Start Game</button>
    
-        <div class="rows" id="column1">
-            <div class="cell" id="c1">1</div>
-            <div class="cell" id="c2">2</div>
-            <div class="cell" id="c3">3</div>
-            <div class="cell" id="c4">4</div>
-            <div class="cell" id="c5">5</div>
-            <div class="cell" id="c6">6</div>
-            <div class="cell" id="c7">7</div>
-            <div class="cell" id="c8">8</div>
-            <div class="cell" id="c9">9</div>
-            <div class="cell" id="c10">10</div>
+        <div className="rows" id="column1">
+            <div className="cell" id="c1">1</div>
+            <div className="cell" id="c2">2</div>
+            <div className="cell" id="c3">3</div>
+            <div className="cell" id="c4">4</div>
+            <div className="cell" id="c5">5</div>
+            <div className="cell" id="c6">6</div>
+            <div className="cell" id="c7">7</div>
+            <div className="cell" id="c8">8</div>
+            <div className="cell" id="c9">9</div>
+            <div className="cell" id="c10">10</div>
         </div>
 
-        <div class="rows" id="column2">
-            <div class="cell" id="c11">11</div>
-            <div class="cell" id="c12">12</div>
-            <div class="cell" id="c13">13</div>
-            <div class="cell" id="c14">14</div>
-            <div class="cell" id="c15">15</div>
-            <div class="cell" id="c16">16</div>
-            <div class="cell" id="c17">17</div>
-            <div class="cell" id="c18">18</div>
-            <div class="cell" id="c19">19</div>
-            <div class="cell" id="c20">20</div>
+        <div className="rows" id="column2">
+            <div className="cell" id="c11">11</div>
+            <div className="cell" id="c12">12</div>
+            <div className="cell" id="c13">13</div>
+            <div className="cell" id="c14">14</div>
+            <div className="cell" id="c15">15</div>
+            <div className="cell" id="c16">16</div>
+            <div className="cell" id="c17">17</div>
+            <div className="cell" id="c18">18</div>
+            <div className="cell" id="c19">19</div>
+            <div className="cell" id="c20">20</div>
         </div>
 
-        <div class="rows" id="column3">
-            <div class="cell" id="c21">21</div>
-            <div class="cell" id="c22">22</div>
-            <div class="cell" id="c23">23</div>
-            <div class="cell" id="c24">24</div>
-            <div class="cell" id="c25">25</div>
-            <div class="cell" id="c26">26</div>
-            <div class="cell" id="c27">27</div>
-            <div class="cell" id="c28">28</div>
-            <div class="cell" id="c29">29</div>
-            <div class="cell" id="c30">30</div>
+        <div className="rows" id="column3">
+            <div className="cell" id="c21">21</div>
+            <div className="cell" id="c22">22</div>
+            <div className="cell" id="c23">23</div>
+            <div className="cell" id="c24">24</div>
+            <div className="cell" id="c25">25</div>
+            <div className="cell" id="c26">26</div>
+            <div className="cell" id="c27">27</div>
+            <div className="cell" id="c28">28</div>
+            <div className="cell" id="c29">29</div>
+            <div className="cell" id="c30">30</div>
         </div>
 
-        <div class="rows" id="column4">
-            <div class="cell" id="c31">31</div>
-            <div class="cell" id="c32">32</div>
-            <div class="cell" id="c33">33</div>
-            <div class="cell" id="c34">34</div>
-            <div class="cell" id="c35">35</div>
-            <div class="cell" id="c36">36</div>
-            <div class="cell" id="c37">37</div>
-            <div class="cell" id="c38">38</div>
-            <div class="cell" id="c39">39</div>
-            <div class="cell" id="c40">40</div>
+        <div className="rows" id="column4">
+            <div className="cell" id="c31">31</div>
+            <div className="cell" id="c32">32</div>
+            <div className="cell" id="c33">33</div>
+            <div className="cell" id="c34">34</div>
+            <div className="cell" id="c35">35</div>
+            <div className="cell" id="c36">36</div>
+            <div className="cell" id="c37">37</div>
+            <div className="cell" id="c38">38</div>
+            <div className="cell" id="c39">39</div>
+            <div className="cell" id="c40">40</div>
         </div>
 
-        <div class="rows" id="column5">
-            <div class="cell" id="c41">41</div>
-            <div class="cell" id="c42">42</div>
-            <div class="cell" id="c43">43</div>
-            <div class="cell" id="c44">44</div>
-            <div class="cell" id="c45">45</div>
-            <div class="cell" id="c46">46</div>
-            <div class="cell" id="c47">47</div>
-            <div class="cell" id="c48">48</div>
-            <div class="cell" id="c49">49</div>
-            <div class="cell" id="c50">50</div>
+        <div className="rows" id="column5">
+            <div className="cell" id="c41">41</div>
+            <div className="cell" id="c42">42</div>
+            <div className="cell" id="c43">43</div>
+            <div className="cell" id="c44">44</div>
+            <div className="cell" id="c45">45</div>
+            <div className="cell" id="c46">46</div>
+            <div className="cell" id="c47">47</div>
+            <div className="cell" id="c48">48</div>
+            <div className="cell" id="c49">49</div>
+            <div className="cell" id="c50">50</div>
         </div>
 
-        <div class="rows" id="column6">
-            <div class="cell" id="c51">51</div>
-            <div class="cell" id="c52">52</div>
-            <div class="cell" id="c53">53</div>
-            <div class="cell" id="c54">54</div>
-            <div class="cell" id="c55">55</div>
-            <div class="cell" id="c56">56</div>
-            <div class="cell" id="c57">57</div>
-            <div class="cell" id="c58">58</div>
-            <div class="cell" id="c59">59</div>
-            <div class="cell" id="c60">60</div>
+        <div className="rows" id="column6">
+            <div className="cell" id="c51">51</div>
+            <div className="cell" id="c52">52</div>
+            <div className="cell" id="c53">53</div>
+            <div className="cell" id="c54">54</div>
+            <div className="cell" id="c55">55</div>
+            <div className="cell" id="c56">56</div>
+            <div className="cell" id="c57">57</div>
+            <div className="cell" id="c58">58</div>
+            <div className="cell" id="c59">59</div>
+            <div className="cell" id="c60">60</div>
         </div>
 
-        <div class="rows" id="column7">
-            <div class="cell" id="c61">61</div>
-            <div class="cell" id="c62">62</div>
-            <div class="cell" id="c63">63</div>
-            <div class="cell" id="c64">64</div>
-            <div class="cell" id="c65">65</div>
-            <div class="cell" id="c66">66</div>
-            <div class="cell" id="c67">67</div>
-            <div class="cell" id="c68">68</div>
-            <div class="cell" id="c69">69</div>
-            <div class="cell" id="c70">70</div>
+        <div className="rows" id="column7">
+            <div className="cell" id="c61">61</div>
+            <div className="cell" id="c62">62</div>
+            <div className="cell" id="c63">63</div>
+            <div className="cell" id="c64">64</div>
+            <div className="cell" id="c65">65</div>
+            <div className="cell" id="c66">66</div>
+            <div className="cell" id="c67">67</div>
+            <div className="cell" id="c68">68</div>
+            <div className="cell" id="c69">69</div>
+            <div className="cell" id="c70">70</div>
         </div>
 
-        <div class="rows" id="column8">
-            <div class="cell" id="c71">71</div>
-            <div class="cell" id="c72">72</div>
-            <div class="cell" id="c73">73</div>
-            <div class="cell" id="c74">74</div>
-            <div class="cell" id="c75">75</div>
-            <div class="cell" id="c76">76</div>
-            <div class="cell" id="c77">77</div>
-            <div class="cell" id="c78">78</div>
-            <div class="cell" id="c79">79</div>
-            <div class="cell" id="c80">80</div>
+        <div className="rows" id="column8">
+            <div className="cell" id="c71">71</div>
+            <div className="cell" id="c72">72</div>
+            <div className="cell" id="c73">73</div>
+            <div className="cell" id="c74">74</div>
+            <div className="cell" id="c75">75</div>
+            <div className="cell" id="c76">76</div>
+            <div className="cell" id="c77">77</div>
+            <div className="cell" id="c78">78</div>
+            <div className="cell" id="c79">79</div>
+            <div className="cell" id="c80">80</div>
         </div>
 
-        <div class="rows" id="column9">
-            <div class="cell" id="c81">81</div>
-            <div class="cell" id="c82">82</div>
-            <div class="cell" id="c83">83</div>
-            <div class="cell" id="c84">84</div>
-            <div class="cell" id="c85">85</div>
-            <div class="cell" id="c86">86</div>
-            <div class="cell" id="c87">87</div>
-            <div class="cell" id="c88">88</div>
-            <div class="cell" id="c89">89</div>
-            <div class="cell" id="c90">90</div>
+        <div className="rows" id="column9">
+            <div className="cell" id="c81">81</div>
+            <div className="cell" id="c82">82</div>
+            <div className="cell" id="c83">83</div>
+            <div className="cell" id="c84">84</div>
+            <div className="cell" id="c85">85</div>
+            <div className="cell" id="c86">86</div>
+            <div className="cell" id="c87">87</div>
+            <div className="cell" id="c88">88</div>
+            <div className="cell" id="c89">89</div>
+            <div className="cell" id="c90">90</div>
         </div>
 
-        <div class="rows" id="column10">
-            <div class="cell" id="c91">91</div>
-            <div class="cell" id="c92">92</div>
-            <div class="cell" id="c93">93</div>
-            <div class="cell" id="c94">94</div>
-            <div class="cell" id="c95">95</div>
-            <div class="cell" id="c96">96</div>
-            <div class="cell" id="c97">97</div>
-            <div class="cell" id="c98">98</div>
-            <div class="cell" id="c99">99</div>
-            <div class="cell" id="c100">100</div>
+        <div className="rows" id="column10">
+            <div className="cell" id="c91">91</div>
+            <div className="cell" id="c92">92</div>
+            <div className="cell" id="c93">93</div>
+            <div className="cell" id="c94">94</div>
+            <div className="cell" id="c95">95</div>
+            <div className="cell" id="c96">96</div>
+            <div className="cell" id="c97">97</div>
+            <div className="cell" id="c98">98</div>
+            <div className="cell" id="c99">99</div>
+            <div className="cell" id="c100">100</div>
         </div>
     </div>
 </div>
