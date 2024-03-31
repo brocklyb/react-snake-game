@@ -1,11 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import './style/testGame.css'
 import Customize from './CustomizePage';
 import UserContext from "../contexts/UserContext";
 
 function TestGame() {
 ///////MAIN COMPONENTS//////////
-const [ start, setStart ] = useState(true);
+const [ start, setStart ] = useState(false);
+const [ score, setScore ] = useState(0)
 
 
 //this context lets users select colors 
@@ -18,19 +19,49 @@ const Snake = {
     headLocation:'c46',
     bodyLocations: [],
     tailLocation: '',
-    score: 0,
 }
 
 const Food = {
     location: 'c15',
 }
 
+
+useEffect(() => {
+    const intervalId = startApp();
+
+    // Clear the interval when the component unmounts or on collision
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [start]);
+
 const startApp = () =>{
     console.log("APP STARTED")
     if(start){
-        setInterval(appContainer, 200);
+        return setInterval(appContainer, 200);
     }
 }
+
+const resetGame = () =>{
+    setStart(true)
+    Snake.length = 3
+    Snake.headLocation = 'c46'
+    Snake.bodyLocations = []
+    Snake.tailLocation = ''
+    setScore(0)
+    for(let i = 1; i<101;i++){
+        document.getElementById('c'+i).style.background = gameBoardColor
+    }
+}
+
+const pauseGame = () =>{
+    setStart(false)
+}
+
+const startGame = () =>{
+    setStart(true)
+}
+
 //////////END OF MAIN COMPONENTS//////
 //entry point of app
 const appContainer = () =>{
@@ -42,7 +73,7 @@ const appContainer = () =>{
     }
     if(headDiv.id == Food.location){
         Snake.length++
-        Snake.score++
+        setScore(prevScore => prevScore + 1)
         newFoodLocation()
     }
     if(isCollision(newHead)){
@@ -229,8 +260,11 @@ function handleKeyUp(event) {
 <div id="main-container">
     <h1>TEST TEST TEST GAME</h1>
     <Customize />
+    <h2>Score = {score}</h2>
     <div id="grid-container">
-      <button onClick={startApp}>Start Game</button>
+      <button onClick={startGame} style={{backgroundColor:'green'}}>Start Game</button>
+      <button onClick={resetGame} style={{backgroundColor:'red'}}>Reset</button>
+      <button onClick={pauseGame} style={{backgroundColor:'yellow'}}>Pause</button>
    
         <div className="rows" id="column1">
             <div className="cell" id="c1" style={{backgroundColor: gameBoardColor}}>1</div>
