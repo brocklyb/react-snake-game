@@ -5,7 +5,7 @@ import UserContext from "../contexts/UserContext";
 
 function TestGame() {
 ///////MAIN COMPONENTS//////////
-const [ start, setStart ] = useState(false);
+const [ start, setStart ] = useState(true);
 
 
 //this context lets users select colors 
@@ -25,16 +25,15 @@ const Food = {
     location: 'c15',
 }
 
-function startApp(){
+const startApp = () =>{
     console.log("APP STARTED")
-    setInterval(appContainer, 200);
-    console.log(snakeColor)
-    console.log(gameBoardColor)
-    console.log(foodColor)
+    if(start){
+        setInterval(appContainer, 200);
+    }
 }
 //////////END OF MAIN COMPONENTS//////
 //entry point of app
-function appContainer(){
+const appContainer = () =>{
     plotFood()
     var newHead = locateNextHead(pressedButton, parseInt(Snake.headLocation.slice(1)))
     var headDiv = document.getElementById(newHead)
@@ -49,6 +48,7 @@ function appContainer(){
     if(isCollision(newHead)){
         //!!!!change setStart to False to end the game!!!!GAME OVER
         console.log("COLLISION")
+        setStart(false)
     }
     
     updateHeadAndBody(newHead)
@@ -69,12 +69,12 @@ function appContainer(){
 }
 
 //create a randomizer to pick random div containers
-function plotFood(){
+const plotFood = () =>{
     document.getElementById(Food.location).style.background = foodColor
 }
 
 //generates a new food location and plots location
-function newFoodLocation(){
+const newFoodLocation = () =>{
     var randomNumber = Math.ceil(Math.random() * 100)
     Food.location = 'c'+randomNumber
     plotFood()
@@ -82,7 +82,7 @@ function newFoodLocation(){
 
 //Determines next head location based off the current locations cell number
 //returns a string that matches the corespondign Div ID
-function locateNextHead(direction, currentHeadNumber){
+const locateNextHead = (direction, currentHeadNumber) =>{
     var currentHead = currentHeadNumber
     var outputNextHead = 0
     if(direction=='LEFT'){
@@ -108,7 +108,7 @@ function locateNextHead(direction, currentHeadNumber){
 }
 
 //determines if thea head collides with body
-function isCollision(newHead){
+const isCollision = (newHead) =>{
     if(Snake.bodyLocations.includes(newHead)){
         return true
     }
@@ -117,25 +117,25 @@ function isCollision(newHead){
 
 //insert the current snake head into the first positon of its body
 //sets the new head of the Snake
-function updateHeadAndBody(newHead){
+const updateHeadAndBody = (newHead) =>{
     Snake.bodyLocations.unshift(Snake.headLocation)
     Snake.headLocation = newHead
 }
 
 //removes tail off snake.body
-function updateTail(){
+const updateTail = () =>{
     var body = Snake.bodyLocations
     Snake.tailLocation = body[body.length -1]
 }
 
 //trims the snake body as it moves
-function updateSnakeBody(){
+const updateSnakeBody = () =>{
     if(Snake.bodyLocations.length>=Snake.length){
         Snake.bodyLocations.pop()
     }
 }
 
-function boundryCheck(head){
+const boundryCheck = (head) =>{
     let numToofarUp = [11,21,31,41,51,61,71,81]
     let numToofarDown = [20,30,40,50,60,70,80,90]
     let numToofarLeft = [2,3,4,5,6,7,8,9]
@@ -172,12 +172,12 @@ function boundryCheck(head){
 return false
 }
 
-function correctSnake(updatedHead){
+const correctSnake = (updatedHead) =>{
     Snake.headLocation = updatedHead
 }
 
 //chages color/plots snake body
-function plotSnake(){
+const plotSnake = () =>{
     console.log(Snake.bodyLocations)
     if(Snake.tailLocation == undefined){
         return
@@ -192,7 +192,7 @@ function plotSnake(){
 }
 
 //remove tail as it moves
-function removeTail(){
+const removeTail = () =>{
     var tail = document.getElementById(Snake.tailLocation)
     if(tail == null){
         return
