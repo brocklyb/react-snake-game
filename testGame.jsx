@@ -167,20 +167,20 @@ const updateSnakeBody = () =>{
 }
 
 const boundryCheck = (head) =>{
-    let numToofarUp = [11,21,31,41,51,61,71,81]
-    let numToofarDown = [20,30,40,50,60,70,80,90]
+    let toofarUp = [11,21,31,41,51,61,71,81]
+    let toofarDown = [20,30,40,50,60,70,80,90]
     let numToofarLeft = [2,3,4,5,6,7,8,9]
-    let numToofarRight = [92,93,94,95,96,97,98,99]
+    let toofarRight = [92,93,94,95,96,97,98,99]
     let newHead = parseInt(head.slice(1))
     let oldHead = parseInt(Snake.bodyLocations[0].slice(1))
     
     //Next head will exceed boudning heading upwards
-    if(oldHead - 1 === newHead && numToofarUp.includes(oldHead)){
+    if(oldHead - 1 === newHead && toofarUp.includes(oldHead)){
         let updatedHead = 9 + oldHead
         return 'c' + updatedHead
     }
     //Next head will exceed boudning heading Down
-    if(oldHead + 1 === newHead && numToofarDown.includes(oldHead)){
+    if(oldHead + 1 === newHead && toofarDown.includes(oldHead)){
         console.log("LJDJDSJDSJDJD")
         let updatedHead = oldHead - 9
         return 'c' + updatedHead
@@ -193,7 +193,7 @@ const boundryCheck = (head) =>{
         return 'c' + updatedHead
     }
         //Next head will exceed boudning heading Left
-    if(oldHead + 10 === newHead && numToofarRight.includes(oldHead)){
+    if(oldHead + 10 === newHead && toofarRight.includes(oldHead)){
         console.log("LJDJDSJDSJDJD")
         let updatedHead = oldHead - 90
         return 'c' + updatedHead
