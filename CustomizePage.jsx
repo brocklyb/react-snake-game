@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import { useState } from "react";
-import TestGame from "./testGame";
 import UserContext from "../contexts/UserContext";
 
 function Customize() {

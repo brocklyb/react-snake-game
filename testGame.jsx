@@ -68,10 +68,10 @@ const appContainer = () =>{
     plotFood()
     var newHead = locateNextHead(pressedButton, parseInt(Snake.headLocation.slice(1)))
     var headDiv = document.getElementById(newHead)
-    if(headDiv == null){
+    if(headDiv === null){
         headDiv = Snake.bodyLocations[0]
     }
-    if(headDiv.id == Food.location){
+    if(headDiv.id === Food.location){
         Snake.length++
         setScore(prevScore => prevScore + 1)
         newFoodLocation()
@@ -116,22 +116,22 @@ const newFoodLocation = () =>{
 const locateNextHead = (direction, currentHeadNumber) =>{
     var currentHead = currentHeadNumber
     var outputNextHead = 0
-    if(direction=='LEFT'){
+    if(direction ==='LEFT'){
         currentHead -=10
         outputNextHead = currentHead
         return 'c' + outputNextHead.toString()
     }
-    if(direction=='UP'){
+    if(direction ==='UP'){
         currentHead -=1
         outputNextHead = currentHead
         return 'c' + outputNextHead.toString()
     }
-    if(direction=='RIGHT'){
+    if(direction ==='RIGHT'){
         currentHead +=10
         outputNextHead = currentHead
         return 'c' + outputNextHead.toString()
     }
-    if(direction=='DOWN'){
+    if(direction ==='DOWN'){
         currentHead +=1
         outputNextHead = currentHead
         return 'c' + outputNextHead.toString()
@@ -175,25 +175,25 @@ const boundryCheck = (head) =>{
     let oldHead = parseInt(Snake.bodyLocations[0].slice(1))
     
     //Next head will exceed boudning heading upwards
-    if(oldHead - 1 == newHead && numToofarUp.includes(oldHead)){
+    if(oldHead - 1 === newHead && numToofarUp.includes(oldHead)){
         let updatedHead = 9 + oldHead
         return 'c' + updatedHead
     }
     //Next head will exceed boudning heading Down
-    if(oldHead + 1 == newHead && numToofarDown.includes(oldHead)){
+    if(oldHead + 1 === newHead && numToofarDown.includes(oldHead)){
         console.log("LJDJDSJDSJDJD")
         let updatedHead = oldHead - 9
         return 'c' + updatedHead
     }
     
     //Next head will exceed boudning heading Right
-    if(oldHead - 10 == newHead && numToofarLeft.includes(oldHead)){
+    if(oldHead - 10 === newHead && numToofarLeft.includes(oldHead)){
         console.log("LJDJDSJDSJDJD")
         let updatedHead = oldHead + 90
         return 'c' + updatedHead
     }
         //Next head will exceed boudning heading Left
-    if(oldHead + 10 == newHead && numToofarRight.includes(oldHead)){
+    if(oldHead + 10 === newHead && numToofarRight.includes(oldHead)){
         console.log("LJDJDSJDSJDJD")
         let updatedHead = oldHead - 90
         return 'c' + updatedHead
@@ -210,22 +210,21 @@ const correctSnake = (updatedHead) =>{
 //chages color/plots snake body
 const plotSnake = () =>{
     console.log(Snake.bodyLocations)
-    if(Snake.tailLocation == undefined){
+    if(Snake.tailLocation === undefined){
         return
     }
     for(let i=0; i<Snake.bodyLocations.length;i++){
-        var body = document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = snakeColor
+        document.getElementById(Snake.bodyLocations[i]).style.backgroundColor = snakeColor
     }
     console.log(Snake.bodyLocations[Snake.bodyLocations.length -1])
-
-    var head = document.getElementById(Snake.headLocation).style.backgroundColor= snakeColor
+    document.getElementById(Snake.headLocation).style.backgroundColor= snakeColor
     removeTail()
 }
 
 //remove tail as it moves
 const removeTail = () =>{
     var tail = document.getElementById(Snake.tailLocation)
-    if(tail == null){
+    if(tail === null || tail === undefined){
         return
     }
     tail.style.backgroundColor = gameBoardColor
@@ -235,16 +234,16 @@ const removeTail = () =>{
 document.addEventListener('keydown', handleKeyDown);
 function handleKeyDown(event) {
     const key = event.key;
-    if(key == 'ArrowLeft'){
+    if(key === 'ArrowLeft'){
         pressedButton="LEFT"
     }
-    if(key == 'ArrowUp'){
+    if(key === 'ArrowUp'){
         pressedButton="UP"
     }
-    if(key == 'ArrowRight'){
+    if(key === 'ArrowRight'){
         pressedButton="RIGHT"
     }
-    if(key == 'ArrowDown'){
+    if(key === 'ArrowDown'){
         pressedButton="DOWN"
     }
 }
@@ -252,7 +251,7 @@ function handleKeyDown(event) {
 // Event listener for keyup
 document.addEventListener('keyup', handleKeyUp);
 function handleKeyUp(event) {
-    const key = event.key;
+    //const key = event.key;
     //pressedButton = "";
 }
 
