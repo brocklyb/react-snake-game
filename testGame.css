@@ -69,47 +69,50 @@
     grid-column: 10;
 }
 
-#highscores-container{
-  
-}
-
 #highscores-grid{
-    border: 2px solid black;
-    margin-top: 40px;
-    margin-bottom: 15%;
-    min-width: 900px;
-    max-width: 900px;
+    text-align: center;
     display: grid;
     grid-template-columns: 2;
+    width: 900px;
+    max-width: 900px;
+    border: 2px solid black;
 }
 
-#recent-scores{
-    text-align: center;
+#recentScoresContainer{
     display: grid;
     grid-column: 1;
 }
 
-#top-scores{
-    text-align: center;
+#recentScoresData{
+    justify-content: center;
+    display: flex;
+  
+}
+
+#topFiveContainer{
     display: grid;
     grid-column: 2;
 }
 
-#popup-container{
-    text-align: center;
-}
-
-#recentScores{
+#topFive{
     justify-content: center;
-    text-align: center;
     display: flex;
+  
 }
 
-.scoreData{
-    text-align: center;
-    padding-left: 50px;
+#topFiveScoresName{
+    margin-right: 20px;
 }
 
-.scoreDataThree{
-    margin-left: 40px;
+#topFiveScoresScore{
+    margin-right: 20px;
 }
+
+#scoreDataName{
+    margin-right: 20px;
+}
+
+#scoreDataScore{
+    margin-right: 20px;
+}
+

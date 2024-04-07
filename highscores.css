@@ -1,0 +1,11 @@
+#allScores-popup{
+    display: flex;
+}
+
+#allScoresName{
+    margin-right: 10px;
+}
+
+#allScoresScore{
+    margin-right: 10px;
+}

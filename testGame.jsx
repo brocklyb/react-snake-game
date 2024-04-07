@@ -3,12 +3,14 @@ import './style/testGame.css'
 import Customize from './CustomizePage';
 import UserContext from "../contexts/UserContext";
 import HighScoresContext from '../contexts/HighScoresContext';
+import HighScoresWidget from './Highscore'
 
 
 function TestGame() {
     ///////MAIN COMPONENTS//////////
     const [ start, setStart ] = useState(false);
     const [ score, setScore ] = useState(0)
+    const [ topFiveScores, setTopFiveScores ] = useState()
 
     //this context lets users select colors 
     const {snakeColor,gameBoardColor, foodColor} = useContext(UserContext)
@@ -28,6 +30,13 @@ function TestGame() {
         location: 'c15',
     }
 
+    useEffect(() =>{
+        sortHighScores()
+    },[]);
+
+    useEffect(() =>{
+        sortHighScores()
+    },[allTopScores]);
 
     useEffect(() => {
         const intervalId = startApp();
@@ -40,6 +49,7 @@ function TestGame() {
                 console.log("app OFF")
             }
         };
+        
     }, [start]);
 
     const startApp = () =>{
@@ -54,13 +64,12 @@ function TestGame() {
         Snake.headLocation = 'c46'
         Snake.bodyLocations = []
         Snake.tailLocation = ''
+        Food.location = 'c15'
         setScore(0)
-        for(let i = 1; i<101;i++){
-            document.getElementById('c'+i).style.background = gameBoardColor
-        }
-        if(dialogRef.current){
-            dialogRef.current.hasAttribute("open")
-            ? dialogRef.current.close()
+        clearBoard()
+        if(saveScoreRef.current){
+            saveScoreRef.current.hasAttribute("open")
+            ? saveScoreRef.current.close()
             : console.log()
         }
     }
@@ -73,10 +82,15 @@ function TestGame() {
         setStart(true)
     }
 
-
+    const clearBoard = () =>{
+        for(let i = 1; i<101;i++){
+            document.getElementById('c'+i).style.background = gameBoardColor
+        }
+    }
     //////////END OF MAIN COMPONENTS//////
     //entry point of app
     const appContainer = () =>{
+        clearBoard()
         plotFood()
         var newHead = locateNextHead(pressedButton, parseInt(Snake.headLocation.slice(1)))
         var headDiv = document.getElementById(newHead)
@@ -93,7 +107,7 @@ function TestGame() {
             //popup for user to input their score or to resume game
             console.log("COLLISION")
             setStart(false)
-            toggleDialog()
+            toggleDialogSaveScore()
         }
         
         updateHeadAndBody(newHead)
@@ -209,8 +223,6 @@ function TestGame() {
             let updatedHead = oldHead - 90
             return 'c' + updatedHead
         }
-
-        
     return false
     }
 
@@ -266,46 +278,91 @@ function TestGame() {
         //pressedButton = "";
     }
 
-    const dialogRef = useRef(null)
-    const toggleDialog = () =>{
-        if(!dialogRef.current){
+    const saveScoreRef = useRef(null)
+    const toggleDialogSaveScore = () =>{
+        if(!saveScoreRef.current){
             return
         }
-        dialogRef.current.hasAttribute("open")
-            ? dialogRef.current.close()
-            : dialogRef.current.showModal()
+        saveScoreRef.current.hasAttribute("open")
+            ? saveScoreRef.current.close()
+            : saveScoreRef.current.showModal()
+    }
+
+    const customizeRef = useRef(null)
+    const toggleDialogCustomize = () =>{
+        if(!customizeRef.current){
+            return
+        }
+        customizeRef.current.hasAttribute("open")
+            ? customizeRef.current.close()
+            : customizeRef.current.showModal()
+    }
+
+    const highscoresRef = useRef(null)
+    const toggleDialogHighscores = () =>{
+        if(!highscoresRef.current){
+            return
+        }
+        highscoresRef.current.hasAttribute("open")
+            ? highscoresRef.current.close()
+            : highscoresRef.current.showModal()
     }
 
     const recordScore = () =>{
         let name = document.getElementById("username").value
         let date = new Date().toDateString().slice(4)
         setRecentScores([...recentScores,{name,score,date}])
-        toggleDialog()
+        setAllTopScores([...allTopScores,{name,score,date}])
+        toggleDialogSaveScore()
     }
+
+    const sortHighScores = () =>{
+        let sortedTopScores = allTopScores.sort((x,y) => { if(x.score < y.score ) return 1})
+        let topFive = []
+        for(let i = 0; i<=4;i++){
+            topFive.push(sortedTopScores[i])
+        }
+        setTopFiveScores(topFive)
+    }
+
 
   return (
 <div id="main-container">
 
     <div>
-        <button onClick={toggleDialog}> Open Popup </button>
+        <button onClick={toggleDialogSaveScore}> Save Score </button>
+        <button onClick={toggleDialogCustomize}> Customize </button>
+        <button onClick={toggleDialogHighscores}> HighScores </button>
     </div>
 
-    <dialog ref={dialogRef}>
+    <dialog ref={saveScoreRef}>
         <div id='popup-container'>
-            <h1>Would you like to save you score?</h1>
+            <h1>GAME OVER</h1>
+            <h3>Would you like to save you score?</h3>
             <input id='username' type='text' placeholder='First Name'></input>
-            <h2>Your Score = {score}</h2>
+            <h3>Your Score = {score}</h3><div id='top-five'>
+                </div>
             <br></br>
             <button style={{backgroundColor: 'Green'}} onClick={recordScore}>Submit</button>
-            <button style={{backgroundColor: 'red'}} onClick={toggleDialog}>Cancel</button>
-            <button style={{backgroundColor: 'yellow'}} onClick={resetGame}>Play Again?</button>
-            
+            <button style={{backgroundColor: 'red'}} onClick={toggleDialogSaveScore}>Cancel</button>
+            <button style={{backgroundColor: 'yellow'}} onClick={resetGame}>Play Again?</button> 
         </div>
     </dialog>
 
-    <h1></h1>
+    <dialog ref={customizeRef}>
+        <div id='popup-container-customize'>
+            <Customize />
+            <button style={{backgroundColor: 'red'}} onClick={toggleDialogCustomize}>Cancel</button>
+        </div>
+    </dialog>
 
-
+    <dialog ref={highscoresRef}>
+        <div id='popup-container-highscores'>
+            <HighScoresWidget />
+            <button style={{backgroundColor: 'red'}} onClick={toggleDialogHighscores}>Cancel</button>
+        </div>
+    </dialog>
+    
 
     <h1>TEST TEST TEST GAME</h1>
 
@@ -448,20 +505,28 @@ function TestGame() {
 
     <div id='highscores-container'>
         <div id='highscores-grid'>
-            <div id='recent-scores'>
+
+            <div id='recentScoresContainer'>
                 <h1>Recent Scores</h1>
                 {recentScores.map((item) => 
-                    <div id='recentScores'>
-                        <p className='scoreData'>{item.name}</p>
-                        <p className='scoreData'>{item.score}</p>
-                        <p className='scoreDataThree'>{item.date}</p> 
+                    <div id='recentScoresData'>
+                        <p id='scoreDataName'>{item.name}</p>
+                        <b><p id='scoreDataScore'>{item.score}</p></b>
+                        <p id='scoreDataDate'>{item.date}</p> 
                     </div>)}
-              
+            </div>
+         
+            <div id='topFiveContainer'>
+                <h1>Top Five Scores</h1>
+                    {topFiveScores && topFiveScores.map((item,index) =>
+                        <div id='topFive'>
+                            <p id='topFiveScoresName'>{item.name}</p>
+                            <b><p id='topFiveScoresScore'>{item.score}</p></b>
+                            <p id='topFiveScoresDate'>{item.date}</p>
+                        </div>
+                    )}
             </div>
 
-            <div id='top-scores'>
-                <h1>Top Scores</h1>
-            </div>
         </div>    
     </div>
 </div>
