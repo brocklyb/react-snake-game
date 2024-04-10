@@ -81,6 +81,7 @@
 #recentScoresContainer{
     display: grid;
     grid-column: 1;
+    overflow: hidden;
 }
 
 #recentScoresData{
@@ -114,5 +115,10 @@
 
 #scoreDataScore{
     margin-right: 20px;
+}
+
+#popup-container-highscores{
+    overflow:scroll;
+    max-height: 400px;
 }
 
