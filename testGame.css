@@ -170,3 +170,15 @@
     display: flex;
     gap: 10px;
 }
+
+#popup-container-customize {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  #popup-container-customize button {
+    background-color: green;
+  }
