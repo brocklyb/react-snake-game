@@ -82,6 +82,7 @@
     display: grid;
     grid-column: 1;
     overflow: hidden;
+    background-color: rgb(217, 217, 217);
 }
 
 #recentScoresData{
@@ -92,6 +93,7 @@
 #topFiveContainer{
     display: grid;
     grid-column: 2;
+    background-color: rgb(217, 217, 217);
 }
 
 #topFive{
@@ -119,6 +121,8 @@
     overflow:scroll;
     max-height: 400px;
 }
+
+
 
 #button-highscores{
     height: 3vh;
