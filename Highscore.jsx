@@ -7,8 +7,8 @@ function HighScores() {
 
 
   return (
-    <div>
-        <h1>HighScores Section</h1>
+    <div id='highscore-container'>
+        <h1>High Scores</h1>
         {allTopScores.map((item,index) =>
           <div id="allScores-popup">
             <p id='allScoresName'>{item.name}</p>

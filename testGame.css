@@ -75,7 +75,7 @@
     grid-template-columns: 2;
     width: 900px;
     max-width: 900px;
-    border: 2px solid black;
+
 }
 
 #recentScoresContainer{
@@ -87,7 +87,6 @@
 #recentScoresData{
     justify-content: center;
     display: flex;
-  
 }
 
 #topFiveContainer{
@@ -98,7 +97,6 @@
 #topFive{
     justify-content: center;
     display: flex;
-  
 }
 
 #topFiveScoresName{
@@ -122,3 +120,42 @@
     max-height: 400px;
 }
 
+#button-highscores{
+    height: 3vh;
+    border-radius: 30px;
+    width: 200px;
+    margin-left: 10vw;
+}
+
+#button-container {
+
+    width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* optional: for some padding inside the container */
+}
+
+#button-column1, #button-column2, #button-column3 {
+    padding: 10px; /* optional: for some padding inside each column */
+}
+
+#button-column1 button{
+    height: 5vh;
+}
+
+#button-column3 button{
+    height: 5vh;
+}
+
+#button-column1 button{
+ width: 200px;
+ font-size: x-large;
+ font-weight: bold;
+}
+
+#button-column3 button{
+    width: 200px;
+    font-size: x-large;
+    font-weight: bold;
+}

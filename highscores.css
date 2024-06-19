@@ -9,3 +9,7 @@
 #allScoresScore{
     margin-right: 10px;
 }
+
+#highscore-container h1{
+    padding-left: 3vw;
+}

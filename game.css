@@ -1,72 +1,80 @@
 #main-container{
     margin-left: 20%;
     max-width: 30%;
-    }
+}
     
-    #grid-container{
-        display: grid;
-        grid-template-columns: 10;
-    
-    }
-    
-    .cell{
-        height: 80px;
-        width: 80px;   
-    }
-    
-    
-    #column1,#column2,#column3,#column4,#column5,#column6,#column7,#column8,#column9,#column10{
-        text-align: center;
-    }
-    
-    #column1{
-        display: grid;
-        grid-column: 1;
-    }
-    
-    #column2{
-        display: grid;
-        grid-column: 2;
-    }
-    
-    #column3{
-        display: grid;
-        grid-column: 3;
-    }
-    
-    #column4{
-        display: grid;
-        grid-column: 4;
-    }
-    
-    #column5{
-        display: grid;
-        grid-column: 5;
-    }
-    
-    #column6{
-        display: grid;
-        grid-column: 6;
-    }
-    
-    #column7{
-        display: grid;
-        grid-column: 7;
-    }
-    
-    #column8{
-        display: grid;
-        grid-column: 8;
-    }
-    
-    #column9{
-        display: grid;
-        grid-column: 9;
-    }
-    
-    #column10{
-        display: grid;
-        grid-column: 10;
-    }
-    
-    
+#grid-container{
+    display: grid;
+    grid-template-columns: 10;
+
+}
+
+.cell{
+    height: 80px;
+    width: 80px;   
+}
+
+
+#column1,#column2,#column3,#column4,#column5,#column6,#column7,#column8,#column9,#column10{
+    text-align: center;
+}
+
+#column1{
+    display: grid;
+    grid-column: 1;
+}
+
+#column2{
+    display: grid;
+    grid-column: 2;
+}
+
+#column3{
+    display: grid;
+    grid-column: 3;
+}
+
+#column4{
+    display: grid;
+    grid-column: 4;
+}
+
+#column5{
+    display: grid;
+    grid-column: 5;
+}
+
+#column6{
+    display: grid;
+    grid-column: 6;
+}
+
+#column7{
+    display: grid;
+    grid-column: 7;
+}
+
+#column8{
+    display: grid;
+    grid-column: 8;
+}
+
+#column9{
+    display: grid;
+    grid-column: 9;
+}
+
+#column10{
+    display: grid;
+    grid-column: 10;
+}
+
+#button-container{
+    border: 2px solid black;
+    height: 200px;
+    width: 200px;
+}
+
+#button-highscores{
+    height: 200px;
+}

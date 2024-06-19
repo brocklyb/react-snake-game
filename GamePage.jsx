@@ -332,10 +332,17 @@ function TestGame() {
  
    return (
  <div id="main-container">
-     <div>
-         <button onClick={toggleDialogSaveScore}> Save Score </button>
-         <button onClick={toggleDialogCustomize}> Customize </button>
-         <button onClick={toggleDialogHighscores}> HighScores </button>
+     <div id='button-container'>
+        <div id='button-column1'>
+            <button id='start-game' onClick={startGame}>Start Game</button>
+            <button onClick={resetGame}>Reset</button>
+        </div>
+        <div id='button-column2'>
+            <h1 id='user-score' style={{color: 'red'}}>Score:  {score}</h1>
+        </div>
+        <div id='button-column3'>
+            <button onClick={toggleDialogCustomize}> Customize </button>
+        </div>
      </div>
  
      <dialog ref={saveScoreRef}>
@@ -366,12 +373,9 @@ function TestGame() {
          </div>
      </dialog>
  
-     <h2>Score = {score}</h2>
+     
      <div id="grid-container">
-       <button onClick={startGame} style={{backgroundColor:'green'}}>Start Game</button>
-       <button onClick={resetGame} style={{backgroundColor:'red'}}>Reset</button>
-       <button onClick={pauseGame} style={{backgroundColor:'yellow'}}>Pause</button>
-    
+
          <div className="rows" id="column1">
              <div className="cell" id="c1" style={{backgroundColor: gameBoardColor}}>1</div>
              <div className="cell" id="c2" style={{backgroundColor: gameBoardColor}}>2</div>
@@ -518,6 +522,7 @@ function TestGame() {
           
              <div id='topFiveContainer'>
                  <h1>Top Five Scores</h1>
+                 <button id='button-highscores' onClick={toggleDialogHighscores}> View all Scores </button>
                      {topFiveScores && topFiveScores.map((item,index) =>
                          <div id='topFive'>
                              <p id='topFiveScoresName'>{item.name}</p>
