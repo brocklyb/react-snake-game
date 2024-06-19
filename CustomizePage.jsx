@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
+import './style/testGame.css'
 
 function Customize() {
-  const {setSnakeColor,setGameBoardColor, setFoodColor} = useContext(UserContext)
+  const {setSnakeColor,setGameBoardColor, setFoodColor, customizeRef} = useContext(UserContext)
 
 
   const submitColors = (e) =>{
@@ -10,9 +11,8 @@ function Customize() {
   }
 
   return (
-    <div>
-        <h1>Customize Section</h1>
-
+    <div id="bbbbb">
+        <h1>Customization options <hr></hr></h1>
         <form id="color-form">
           <div id="snake-color">
             <label for="colorPicker">Choose Snake color:</label>
@@ -28,11 +28,7 @@ function Customize() {
             <label for="colorPicker">Choose Food color:</label>
             <input type="color" id="colorPicker" onChange={(e) => setFoodColor(e.target.value)}></input>
           </div>
-          <button type="submit" onClick={submitColors}>Submit</button>
         </form>
-
-        <hr></hr>
-        <hr></hr>
     </div>
     
 

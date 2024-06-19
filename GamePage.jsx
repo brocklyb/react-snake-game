@@ -12,7 +12,7 @@ function TestGame() {
      const [ topFiveScores, setTopFiveScores ] = useState()
  
      //this context lets users select colors 
-     const {snakeColor,gameBoardColor, foodColor} = useContext(UserContext)
+     const {snakeColor,gameBoardColor, foodColor, customizeRef} = useContext(UserContext)
      //this context saves top scores from users
      const {allTopScores, setAllTopScores, recentScores, setRecentScores} = useContext(HighScoresContext)
  
@@ -78,7 +78,8 @@ function TestGame() {
      }
  
      const startGame = () =>{
-         setStart(true)
+        setScore(0)
+        setStart(true)
      }
  
      const clearBoard = () =>{
@@ -287,15 +288,15 @@ function TestGame() {
              : saveScoreRef.current.showModal()
      }
  
-     const customizeRef = useRef(null)
+     //const customizeRef = useRef(null)
      const toggleDialogCustomize = () =>{
-         if(!customizeRef.current){
-             return
-         }
-         customizeRef.current.hasAttribute("open")
-             ? customizeRef.current.close()
-             : customizeRef.current.showModal()
-     }
+        if(!customizeRef.current){
+            return
+        }
+        customizeRef.current.hasAttribute("open")
+            ? customizeRef.current.close()
+            : customizeRef.current.showModal()
+    }
  
      const highscoresRef = useRef(null)
      const toggleDialogHighscores = () =>{
@@ -353,16 +354,18 @@ function TestGame() {
              <h3>Your Score = {score}</h3><div id='top-five'>
                  </div>
              <br></br>
-             <button style={{backgroundColor: 'Green'}} onClick={recordScore}>Submit</button>
-             <button style={{backgroundColor: 'red'}} onClick={toggleDialogSaveScore}>Cancel</button>
-             <button style={{backgroundColor: 'yellow'}} onClick={resetGame}>Play Again?</button> 
+             <div id='popup-buttons'>
+                <button style={{backgroundColor: 'Green'}} onClick={recordScore}>Submit</button>
+                <button style={{backgroundColor: 'red'}} onClick={toggleDialogSaveScore}>Cancel</button>
+                <button style={{backgroundColor: 'yellow'}} onClick={resetGame}>Play Again?</button> 
+            </div>
          </div>
      </dialog>
  
      <dialog ref={customizeRef}>
          <div id='popup-container-customize'>
              <Customize />
-             <button style={{backgroundColor: 'red'}} onClick={toggleDialogCustomize}>Cancel</button>
+             <button style={{backgroundColor: 'green'}} onClick={toggleDialogCustomize}>Submit</button>
          </div>
      </dialog>
  
